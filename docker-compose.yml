@@ -7,9 +7,7 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
-      POSTGRES_DB: demo_db
-    volumes:
-      - database_data:/var/lib/postgresql/data
+      POSTGRES_DB: db
 
   database_admin:
     image: adminer
@@ -17,22 +15,26 @@ services:
       - "8080:8080"
     depends_on:
       - database
-  
+
   python-app:
     build:
       context: ./python-app
-      dockerfile: Dockerfile
-    container_name: python-app
-    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
     ports:
-      - "8000:8000" # Main application port
-      - "5678:5678" # Debug port
-    volumes:
-      - ./python-app:/app
+      - "8000:8000"
+    develop:
+      watch:
+        - action: sync
+          path: ./python-app
+          target: /app
+          ignore:
+            - .venv/
+
+        - action: rebuild
+          path: ./uv.lock
     depends_on:
       - redis
       - database
-
+  
   next-app:
     container_name: next-app
     build:

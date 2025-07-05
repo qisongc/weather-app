@@ -2,17 +2,15 @@ from fastapi import FastAPI
 from pydantic import BaseModel, PositiveInt
 import psycopg2
 import redis
-import debugpy
 from sqlmodel import SQLModel, Field, create_engine, Session
 
-debugpy.listen(("0.0.0.0", 5678))
 r = redis.Redis(host='redis', port=6379)
 
 class Account(SQLModel, table=True):
         id: PositiveInt = Field(default=None, primary_key=True)
         name: str
 
-engine = create_engine("postgresql+psycopg2://admin:admin@database/demo_db")
+engine = create_engine("postgresql+psycopg2://admin:admin@database/db")
 
 app = FastAPI()
 
@@ -29,7 +27,7 @@ def read_root():
         session.commit()
 
     conn = psycopg2.connect(
-        database="demo_db",
+        database="db",
         user="admin",
         password="admin",
         host="database",
