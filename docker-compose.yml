@@ -1,0 +1,54 @@
+services:
+  redis:
+    image: redis
+
+  database:
+    image: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: demo_db
+    volumes:
+      - database_data:/var/lib/postgresql/data
+
+  database_admin:
+    image: adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+  
+  python-app:
+    build:
+      context: ./python-app
+      dockerfile: Dockerfile
+    container_name: python-app
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000" # Main application port
+      - "5678:5678" # Debug port
+    volumes:
+      - ./python-app:/app
+    depends_on:
+      - redis
+      - database
+
+  next-app:
+    container_name: next-app
+    build:
+      context: ./next-app
+      dockerfile: dev.Dockerfile
+
+    # Set environment variables directly in the compose file
+    environment:
+      - WATCHPACK_POLLING=true
+
+    volumes:
+      - ./next-app/src:/app/src
+      - ./next-app/public:/app/public
+    restart: always
+    ports:
+      - 3000:3000
+
+volumes:
+  database_data:
