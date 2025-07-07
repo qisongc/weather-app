@@ -1,8 +1,10 @@
 services:
   redis:
+    container_name: redis
     image: redis
 
   database:
+    container_name: database
     image: postgres
     environment:
       POSTGRES_USER: admin
@@ -12,6 +14,7 @@ services:
       - database_data:/var/lib/postgresql/data
 
   database_admin:
+    container_name: database_admin
     image: adminer
     ports:
       - "8080:8080"
@@ -19,6 +22,7 @@ services:
       - database
 
   python-app:
+    container_name: python-app
     build:
       context: ./python-app
     volumes:
@@ -26,6 +30,7 @@ services:
       - /app/.venv
     ports:
       - "8000:8000"
+      - "5678:5678"  # Debugging port
     develop:
       watch:
         - action: sync

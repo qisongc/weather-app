@@ -1,51 +1,27 @@
-import psycopg2
-import redis
-import requests
-
+import debugpy
 from fastapi import FastAPI
-from pydantic import BaseModel, PositiveInt
-from sqlmodel import SQLModel, Field, create_engine, Session
 from fastapi.middleware.cors import CORSMiddleware
+from src.routes import auth, counter, forecast, top_location
 
-r = redis.Redis(host='redis', port=6379)
-
-class Account(SQLModel, table=True):
-        id: PositiveInt = Field(default=None, primary_key=True)
-        username: str
-
-engine = create_engine("postgresql+psycopg2://admin:admin@database/db")
+debugpy.listen(("0.0.0.0", 5678))
 
 app = FastAPI()
 
-origins = [
-    "http://host.docker.internal:3000", 
-]
-
+# CORS config
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["http://host.docker.internal:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# Include route modules
+app.include_router(auth.router)
+app.include_router(counter.router)
+app.include_router(forecast.router)
+app.include_router(top_location.router)
+
 @app.get("/")
-def read_root():
-
-    return {"accounts": "Welcome to the Weather App API"}
-
-
-@app.get("/counter")
-def read_root():
-    r.incr("counter")
-    return {"Counter": r.get("counter")}
-
-@app.get("/getForecast")
-def get_forecast(lat: float, lon: float):
-    url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&hourly=temperature_2m,precipitation,weathercode"
-    response = requests.get(url)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        return {"error": "Failed to fetch data from Open Meteo API"}
-     
+def root():
+    return {"message": "Welcome to the Weather App API"}
