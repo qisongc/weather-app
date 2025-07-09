@@ -40,7 +40,7 @@ export default function HeaderComponent() {
                         </div>
                         :
                         <form className="flex gap-2" onSubmit={handleLoginFormSubmit}>
-                            <input className="bg-white text-gray-900 p-2" type="ext" placeholder="Username" name="username" value={usernameValue} onChange={(e) => setUsernameValue(e.target.value)} />
+                            <input className="bg-white text-gray-900 p-2" type="ext" placeholder="Username" value={usernameValue} onChange={(e) => setUsernameValue(e.target.value)} />
                             <button className="cursor-pointer" type="submit">Login</button>
                         </form>
                 }

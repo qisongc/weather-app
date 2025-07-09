@@ -14,7 +14,7 @@ def add_favourite_location(account_id: int, location_id: int, session: Session):
     session.add(favourite)
     session.commit()
     session.refresh(favourite)
-    return favourite
+    return favourite is not None
 
 def remove_favourite_location(account_id: int, location_id: int, session: Session):
     statement = select(Favourite).where(
@@ -25,7 +25,7 @@ def remove_favourite_location(account_id: int, location_id: int, session: Sessio
     if favourite:
         session.delete(favourite)
         session.commit()
-    return favourite
+    return favourite is None
 
 def fetch_favourite_locations(account_id: int, session: Session):
     account = session.get(Account, account_id)

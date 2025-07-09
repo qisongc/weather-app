@@ -1,7 +1,6 @@
-from sqlmodel import Session, select
-from sqlalchemy import func
-import math
+from sqlmodel import Session
 from src.models import Comment, Location
+import math
 
 def comment(account_id: int, location_id: int, content: str, session: Session, per_page: int = 10):
     new_comment = Comment(account_id=account_id, location_id=location_id, content=content)
@@ -9,10 +8,8 @@ def comment(account_id: int, location_id: int, content: str, session: Session, p
     session.commit()
     session.refresh(new_comment)
 
-    total = session.exec(
-        select(func.count()).where(Comment.location_id == location_id)
-    ).one()
-
+    location = new_comment.location
+    total = len(location.comments)
     total_pages = math.ceil(total / per_page) if per_page else 1
 
     comments = fetch_comments(location_id, session, total_pages, per_page)
@@ -20,9 +17,6 @@ def comment(account_id: int, location_id: int, content: str, session: Session, p
 
 def fetch_comments(location_id: int, session: Session, page: int = 1, per_page: int = 10):
     location = session.get(Location, location_id)
-    if not location:
-        return {"total": 0, "total_page": 0, "page": page, "per_page": per_page, "comments": []}
-
     total = len(location.comments)
     total_pages = math.ceil(total / per_page) if per_page else 1
     start = (page - 1) * per_page

@@ -1,6 +1,6 @@
-from typing import Optional
 from sqlmodel import Session, select
 from src.models import Location
+from typing import Optional
 
 def fetch_location(location_id: int, session: Session):
     statement = select(Location).where(Location.id == location_id)
@@ -24,10 +24,7 @@ def increase_location_search_count(location: Location, session: Session):
     session.refresh(location)
     return location
 
-def fetch_top_location(count: int, session: Session):
+def fetch_top_location(session: Session, count: int = 3):
     statement = select(Location).order_by(Location.search_count.desc()).limit(count)
     results = session.exec(statement).all()
-
-    if not results:
-        return None
     return results

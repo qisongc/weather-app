@@ -1,9 +1,10 @@
 from fastapi import APIRouter
-import requests
+from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
 from sqlmodel import Session
 from src.db import engine, redis_client
 from src.services.location import find_location, add_location, increase_location_search_count, fetch_top_location
-from fastapi.responses import JSONResponse
+import requests
 import json
 
 router = APIRouter()
@@ -29,7 +30,7 @@ def get_forecast(latitude: float, longitude: float, name: str, admin1: str = Non
     response = requests.get(url)
     if response.status_code == 200:
         forecast = response.json()
-        response = { "location": location.model_dump(), "forecast": forecast }
+        response = jsonable_encoder({ "location": location, "forecast": forecast })
 
         redis_client.set(redis_key, json.dumps(response), ex=900)
 
@@ -39,7 +40,7 @@ def get_forecast(latitude: float, longitude: float, name: str, admin1: str = Non
 @router.get("/get-top-location-forecast")
 def get_top_location_forecast(count: int = 3):
     with Session(engine) as session:
-        locations = fetch_top_location(count, session)
+        locations = fetch_top_location(session, count)
         if locations:
             responses = []
             for location in locations:
@@ -55,7 +56,7 @@ def get_top_location_forecast(count: int = 3):
                     response = requests.get(url)
                     if response.status_code == 200:
                         forecast = response.json()
-                        response = { "location": location.model_dump(), "forecast": forecast }
+                        response = jsonable_encoder({ "location": location, "forecast": forecast })
 
                         redis_client.set(redis_key, json.dumps(response), ex=900)
                         responses.append(response)

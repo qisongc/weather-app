@@ -185,7 +185,7 @@ export default function ForecastComponent() {
             }
             {
                 account && account?.id && <form className="flex gap-5" onSubmit={handleCommentPostSubmit}>
-                    <input className="border-2 border-color-white w-full p-5" name="comment" value={commentValue} onChange={(e) => setCommentValue(e.target.value)} />
+                    <input className="border-2 border-color-white w-full p-5" value={commentValue} onChange={(e) => setCommentValue(e.target.value)} />
                     <button className="bg-gray-900 p-5 cursor-pointer" type="submit">Post</button>
                 </form>
             }

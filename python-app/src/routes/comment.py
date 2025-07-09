@@ -1,10 +1,10 @@
 from fastapi import APIRouter
-from src.services.comment import comment, fetch_comments
-from sqlmodel import Session
-from src.db import engine
-from src.schemas import CommentRequest
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
+from sqlmodel import Session
+from src.db import engine
+from src.services.comment import comment, fetch_comments
+from src.schemas import CommentRequest
 
 router = APIRouter()
 
