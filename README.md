@@ -1,4 +1,4 @@
-After cloning the repository, at the root directory, build the docker images and containers using the following command:
+After cloning the repository and running Docker Desktop. At the root directory, build the docker images and containers using the following command:
 
 `docker-compose up -d`
 
@@ -10,3 +10,8 @@ Stop the container using the follow command:
 
 `docker-compose down`
 
+Website: `http://host.docker.internal:3000/`
+
+FastAPI Docs: `http://host.docker.internal:8000/docs`
+
+PostgreSQL: `http://host.docker.internal:8080/`
