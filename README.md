@@ -1,4 +1,4 @@
-After cloning the repository, at the root directory, build the docker images and containers using the following command:
+After cloning the repository and running Docker Desktop. At the root directory, build the docker images and containers using the following command:
 
 `docker-compose up -d`
 
