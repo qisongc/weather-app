@@ -11,5 +11,7 @@ Stop the container using the follow command:
 `docker-compose down`
 
 Website: `http://host.docker.internal:3000/`
+
 FastAPI Docs: `http://host.docker.internal:8000/docs`
+
 PostgreSQL: `http://host.docker.internal:8080/`
