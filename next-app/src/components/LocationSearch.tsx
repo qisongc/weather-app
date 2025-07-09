@@ -2,24 +2,28 @@
 
 import { useEffect, useState, useRef } from "react";
 import { Location } from "@/types/location";
+import { getGeolocationSuggestions } from "@/apis/forecast";
 
 export default function LocationSearchComponent() {
     const [searchValue, setSearchValue] = useState("");
     const [searchLocations, setSearchLocations] = useState<Location[]>([]);
     const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const searchTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const handleSearchKeyUp = async (event: React.KeyboardEvent<HTMLInputElement>) => {
-        try {
-            const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${searchValue}&count=5&language=en&format=json`);
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            const data = await response.json();
-            setSearchLocations(data.results);
-        } catch (error) {
-            console.error("Fetch error:", error);
+        if (searchTimeout.current) {
+            clearTimeout(searchTimeout.current);
         }
+        searchTimeout.current = setTimeout(async () => {
+            try {
+                const suggestions = await getGeolocationSuggestions(searchValue);
+                const data = suggestions.results;
+                setSearchLocations(data);
+            } catch (error) {
+                console.error("Fetch error:", error);
+            }
+        }, 500);
     };
 
     useEffect(() => {
