@@ -1,10 +1,10 @@
 import { Account } from "@/types";
 
 export const login = async (username: string): Promise<Account> => {
-    const response = await fetch('/api/login', {
-        method: 'POST',
+    const response = await fetch("/api/login", {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({ username: username }),
     });

@@ -1,7 +1,7 @@
 "use client"
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Account } from '@/types';
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { Account } from "@/types";
 
 type AccountContextType = {
   account: Account | null;
@@ -14,7 +14,7 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
   const [account, setAccount] = useState<Account | null>(null);
 
   useEffect(() => {
-    const localAccount = localStorage.getItem('account');
+    const localAccount = localStorage.getItem("account");
     if (localAccount) {
       setAccount(JSON.parse(localAccount));
     }
@@ -22,10 +22,10 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (account) {
-      localStorage.setItem('account', JSON.stringify(account));
+      localStorage.setItem("account", JSON.stringify(account));
     }
     else {
-      localStorage.removeItem('account');
+      localStorage.removeItem("account");
     }
   }, [account]);
 
@@ -38,6 +38,6 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
 
 export const useAccount = () => {
   const context = useContext(AccountContext);
-  if (!context) throw new Error('useAccount must be used within AccountProvider');
+  if (!context) throw new Error("useAccount must be used within AccountProvider");
   return context;
 };

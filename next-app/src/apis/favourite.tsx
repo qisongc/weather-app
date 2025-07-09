@@ -9,10 +9,10 @@ export const getIsFavouriteLocation = async (account_id: number, location_id: nu
 };
 
 export const favouriteLocation = async (account_id: number, location_id: number): Promise<boolean> => {
-    const response = await fetch('/api/favourite-location', {
-        method: 'POST',
+    const response = await fetch("/api/favourite-location", {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({ account_id: account_id, location_id: location_id }),
     });
@@ -24,7 +24,7 @@ export const favouriteLocation = async (account_id: number, location_id: number)
 
 export const unfavouriteLocation = async (account_id: number, location_id: number): Promise<boolean> => {
     const response = await fetch(`/api/unfavourite-location?account_id=${account_id}&location_id=${location_id}`, {
-        method: 'DELETE',
+        method: "DELETE",
     });
     if (!response.ok) {
         throw new Error("Network response was not ok");
