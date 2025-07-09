@@ -6,7 +6,6 @@ from src.services.location import find_location, add_location, increase_location
 from fastapi.responses import JSONResponse
 import json
 
-
 router = APIRouter()
 
 @router.get("/get-forecast")

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAccount } from "@/contexts/account";
 import { Location } from "@/types/location";
 
-import { getFavouriteLocations } from "@/services/api";
+import { getFavouriteLocations } from "@/apis/favourite";
 
 export default function FavouriteLocationsComponent() {
     const { account, setAccount } = useAccount();

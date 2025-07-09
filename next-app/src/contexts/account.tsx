@@ -14,9 +14,9 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
   const [account, setAccount] = useState<Account | null>(null);
 
   useEffect(() => {
-    const stored = localStorage.getItem('account');
-    if (stored) {
-      setAccount(JSON.parse(stored));
+    const localAccount = localStorage.getItem('account');
+    if (localAccount) {
+      setAccount(JSON.parse(localAccount));
     }
   }, []);
 

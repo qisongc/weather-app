@@ -9,7 +9,9 @@ import { faStar } from "@fortawesome/free-regular-svg-icons"
 import { faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons"
 import { Comments, Comment, Forecast } from "@/types";
 
-import { getForecast, favouriteLocation, unfavouriteLocation, getIsFavouriteLocation, getComments, postComment } from "@/services/api";
+import { getForecast } from "@/apis/forecast";
+import { favouriteLocation, unfavouriteLocation, getIsFavouriteLocation } from "@/apis/favourite"
+import { getComments, postComment } from "@/apis/comment";
 
 export default function ForecastComponent() {
     const searchParams = useSearchParams();

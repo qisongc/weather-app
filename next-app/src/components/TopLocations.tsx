@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Forecast } from "@/types/location";
 
-import { getTopLocationForecast } from "@/services/api";
+import { getTopLocationForecast } from "@/apis/forecast";
 
 export default function TopLocationComponent() {
     const [topLocationForecast, setTopLocationForecast] = useState<Forecast[]>([]);

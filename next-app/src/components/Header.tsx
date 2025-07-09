@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { useAccount } from "@/contexts/account";
-import { login } from "@/services/api";
+import { login } from "@/apis/authentication";
 
 export default function HeaderComponent() {
     const [usernameValue, setUsernameValue] = useState("");
@@ -27,9 +27,9 @@ export default function HeaderComponent() {
 
     return (
         <header>
-            <nav className="flex justify-between min-h-10 p-5 items-center bg-gray-900">
+            <nav className="flex justify-between min-h-20 p-5 items-center bg-gray-900">
                 <Link href="/">Home</Link>
-                <div>
+                <div className="text-xl">
                     🌦️ Weather App
                 </div>
                 {

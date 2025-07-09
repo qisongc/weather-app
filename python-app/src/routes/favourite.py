@@ -8,8 +8,8 @@ from fastapi.responses import JSONResponse
 
 router = APIRouter()
 
-@router.get("/is-favourite")
-def is_favourite(account_id: int, location_id: int):
+@router.get("/is-favourite-location")
+def get_is_favourite_location(account_id: int, location_id: int):
     with Session(engine) as session:
         location = fetch_location(location_id, session)
         if location:
@@ -17,8 +17,8 @@ def is_favourite(account_id: int, location_id: int):
             return JSONResponse(status_code=200, content=is_fav)
         return JSONResponse(status_code=404, content={"error": "Location not found"})
 
-@router.post("/favourite")
-def post_favourite(payload: FavouriteRequest):
+@router.post("/favourite-location")
+def post_favourite_location(payload: FavouriteRequest):
     with Session(engine) as session:
         location = fetch_location(payload.location_id, session)
         if location:
@@ -26,8 +26,8 @@ def post_favourite(payload: FavouriteRequest):
             return JSONResponse(status_code=201, content=True)
         return JSONResponse(status_code=404, content={"error": "Location not found"})
 
-@router.delete("/unfavourite")
-def delete_favourite(account_id: int, location_id: int):
+@router.delete("/unfavourite-location")
+def delete_favourite_location(account_id: int, location_id: int):
     with Session(engine) as session:
         location = fetch_location(location_id, session)
         if location:
@@ -35,8 +35,8 @@ def delete_favourite(account_id: int, location_id: int):
             return JSONResponse(status_code=200, content=False)
         return JSONResponse(status_code=404, content={"error": "Location not found"})
    
-@router.get("/favourites")
-def get_favourites(account_id: int):
+@router.get("/favourite-locations")
+def get_favourite_locations(account_id: int):
     with Session(engine) as session:
         favourites = fetch_favourite_locations(account_id, session)
         if favourites:
