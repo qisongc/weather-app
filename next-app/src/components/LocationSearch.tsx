@@ -23,7 +23,7 @@ export default function LocationSearchComponent() {
     };
 
     useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
+        const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setIsDropdownVisible(false);
             }
