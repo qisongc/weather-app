@@ -1,7 +1,7 @@
 import debugpy
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.routes import auth, counter, forecast, top_location
+from src.routes import authentication, forecast, favourite, comment
 
 debugpy.listen(("0.0.0.0", 5678))
 
@@ -17,10 +17,10 @@ app.add_middleware(
 )
 
 # Include route modules
-app.include_router(auth.router)
-app.include_router(counter.router)
+app.include_router(authentication.router)
 app.include_router(forecast.router)
-app.include_router(top_location.router)
+app.include_router(favourite.router)
+app.include_router(comment.router)
 
 @app.get("/")
 def root():

@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import Optional, List
 from sqlmodel import SQLModel, Field, Relationship
-from sqlalchemy import Index
+from sqlalchemy import Index, UniqueConstraint
 
 class Comment(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -38,10 +38,10 @@ class Location(SQLModel, table=True):
     search_count: int = Field(default=1, nullable=False)
 
     __table_args__ = (
-        Index(
-            "idx_location_all_fields",
+        UniqueConstraint(
             "latitude",
             "longitude",
+            name="uq_lat_lng"
         ),
     )
 
