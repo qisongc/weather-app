@@ -17,7 +17,7 @@ class Favourite(SQLModel, table=True):
 
 class Account(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    username: str = Field(index=True, nullable=False)
+    username: str = Field(index=True, nullable=False, unique=True)
 
 class Location(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
