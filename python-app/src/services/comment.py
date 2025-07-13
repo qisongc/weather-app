@@ -30,7 +30,6 @@ def fetch_comments(location_id: int, session: Session, page: int = 1, per_page: 
 
     accounts = session.exec(select(Account).where(Account.id.in_(unique_account_id))).all()
     accounts_dict = {account.id: account.username for account in accounts}
-    print(accounts_dict)
 
     comments_with_account = [
         {
