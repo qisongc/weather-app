@@ -19,7 +19,6 @@ def add_location(latitude: float, longitude: float, name: str, admin1: str, coun
 
 def increase_location_search_count(location: Location, session: Session):
     location.search_count += 1
-    session.add(location)
     session.commit()
     session.refresh(location)
     return location

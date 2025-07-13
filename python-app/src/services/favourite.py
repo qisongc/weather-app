@@ -1,5 +1,5 @@
 from sqlmodel import Session, select
-from src.models import Favourite, Account
+from src.models import Favourite, Account, Location
 
 def is_favourite_location(account_id: int, location_id: int, session: Session):
     statement = select(Favourite).where(
@@ -28,5 +28,5 @@ def remove_favourite_location(account_id: int, location_id: int, session: Sessio
     return favourite is None
 
 def fetch_favourite_locations(account_id: int, session: Session):
-    account = session.get(Account, account_id)
-    return account.favourites if account else []
+    locations = session.exec(select(Location).join(Favourite).where(Favourite.account_id == account_id and Location.id == Favourite.location_id)).all()
+    return locations
