@@ -28,7 +28,7 @@ export default function FavouriteLocationsComponent() {
     }, [account?.id]);
 
     return (
-        account && account?.id && favouriteLocations && favouriteLocations.length > 0 &&
+        account && account?.id && favouriteLocations && favouriteLocations?.length > 0 &&
         (
             <div className="flex flex-col gap-2 bg-gray-900 p-5">
                 <h1 className="text-xl">Favourite Locations</h1>
@@ -36,8 +36,8 @@ export default function FavouriteLocationsComponent() {
                     <ul>
                         {favouriteLocations.map((location: any, index: number) => (
                             <li key={index}>
-                                <a href={`/location?latitude=${location.latitude}&longitude=${location.longitude}&name=${encodeURIComponent(location.name)}&admin1=${encodeURIComponent(location.admin1 || "")}&country=${location.country !== location.name ? encodeURIComponent(location.country || "") : ""}`}>
-                                    {location.name}{location.admin1 ? `, ${location.admin1}` : ""}{location.country ? location.country !== location.name ? `, ${location.country}` : "" : ""}
+                                <a href={`/location?latitude=${location?.latitude}&longitude=${location?.longitude}&name=${encodeURIComponent(location?.name)}&admin1=${encodeURIComponent(location?.admin1 || "")}&country=${location?.country !== location?.name ? encodeURIComponent(location?.country || "") : ""}`}>
+                                    {location?.name}{location?.admin1 ? `, ${location?.admin1}` : ""}{location?.country ? location?.country !== location?.name ? `, ${location?.country}` : "" : ""}
                                 </a>
                             </li>
                         ))}

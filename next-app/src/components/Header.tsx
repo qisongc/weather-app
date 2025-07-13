@@ -35,7 +35,7 @@ export default function HeaderComponent() {
                 {
                     account ?
                         <div className="flex gap-2">
-                            <span>Welcome, {account.username}</span>
+                            <span>Welcome, {account?.username}</span>
                             <button className="cursor-pointer" onClick={() => { setAccount(null); }}>Logout</button>
                         </div>
                         :
