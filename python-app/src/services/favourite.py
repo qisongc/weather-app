@@ -28,5 +28,5 @@ def remove_favourite_location(account_id: int, location_id: int, session: Sessio
     return favourite is None
 
 def fetch_favourite_locations(account_id: int, session: Session):
-    locations = session.exec(select(Location).join(Favourite).where(Favourite.account_id == account_id and Location.id == Favourite.location_id)).all()
+    locations = session.exec(select(Location).join(Favourite).where(Favourite.account_id == account_id)).all()
     return locations
