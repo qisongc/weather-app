@@ -18,10 +18,11 @@ def add_location(latitude: float, longitude: float, name: str, admin1: str, coun
     return location
 
 def increase_location_search_count(location: Location, session: Session):
-    location.search_count += 1
+    session.query(Location).filter(Location.id == location.id).update(
+        {"search_count": Location.search_count + 1}
+    )
     session.commit()
-    session.refresh(location)
-    return location
+    return session.get(Location, location.id)
 
 def fetch_top_location(session: Session, count: int = 3):
     statement = select(Location).order_by(Location.search_count.desc()).limit(count)

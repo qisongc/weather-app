@@ -1,11 +1,12 @@
 from datetime import datetime, timezone
 from typing import Optional, List
-from sqlmodel import SQLModel, Field, Relationship
-from sqlalchemy import UniqueConstraint
+from sqlmodel import SQLModel, Field
+from sqlalchemy import UniqueConstraint, Column, String
+from pydantic import constr
 
 class Comment(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    content: str = Field(nullable=False)
+    content: constr(max_length=500) = Field(sa_column=Column(String(500), nullable=False))
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     account_id: int = Field(foreign_key="account.id")
